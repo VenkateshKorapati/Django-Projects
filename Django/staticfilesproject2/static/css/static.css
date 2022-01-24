@@ -1,0 +1,16 @@
+body{
+  background: orange;
+  text-align: center;
+}
+h1{
+  color: white;
+}
+h2{
+  color:blue;
+}
+img{
+  height: 250px;
+  width: 25%;
+  border: 5px solid green;
+
+}

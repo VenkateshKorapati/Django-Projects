@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <h1>Job Information</h1><hr>
+    {%if Job_details%}
+    <table border="2">
+      <thead>
+        <th>Job Posting_date</th>
+        <th>Job Location</th>
+        <th>Job Offered_salary</th>
+        <th>Job Qualification</th>
+      </thead>
+      {%for job in Job_details%}
+      <tr>
+        <td>{{job.Posting_date}}</td>
+        <td>{{job.Location}}</td>
+        <td>{{job.Offered_salary}}</td>
+        <td>{{job.Qualification}}</td>
+      </tr>
+      {%endfor%}
+    </table>
+    {%else%}
+    <p>No Job Records Found!!!Please Enter Details</p>
+    {%endif%}
+  </body>
+</html>
