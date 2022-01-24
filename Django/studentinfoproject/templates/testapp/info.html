@@ -1,0 +1,38 @@
+{%load static%}
+<html>
+    <head>
+        <title>Student Information</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+        <link rel="stylesheet" href="{%static 'css/info.css'%}">
+    </head>
+    <body>
+        <div class="container" align='center'>
+            <h1>Student Information</h1><hr>
+        
+        {%if info%}
+        <table border=2>
+            <thead>
+                <th>Student Roll no</th>
+                <th>Student Name</th>
+                <th>Student DOB</th>
+                <th>Student Email</th>
+                <th>Student Phone no</th>
+                <th>Student Address</th>
+            </thead>
+            {%for i in info%}
+            <tr>
+                <td>{{i.roll_no}}</td>
+                <td>{{i.name}}</td>
+                <td>{{i.dob}}</td>
+                <td>{{i.email}}</td>
+                <td>{{i.ph_number}}</td>
+                <td>{{i.address}}</td>
+            </tr>
+            {%endfor%}
+        </table>
+        {%else%}
+        <p>No Student Information Available...Please add Some details</p>
+        {%endif%}
+        </div>
+    </body>
+</html>
