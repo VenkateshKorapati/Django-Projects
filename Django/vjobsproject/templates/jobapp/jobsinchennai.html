@@ -1,0 +1,45 @@
+{%load static%}
+<html>
+    <head>
+        <title>Job Information</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+        <link rel="stylesheet" href="{%static 'css/jobs.css'%}">
+    </head>
+    <body>
+        <div class="container" align='center'>
+
+        
+        <h1>Welcome to Chennai</h1><hr>
+        <img src="{%static 'images/chennai1.jpg'%}">
+        <img src="{%static 'images/c2.jpg'%}">
+        <img src="{%static 'images/c3.jpg'%}">
+        {%if chennaijob%}
+        <table border=2>
+            <thead>
+                <th>DATE</th>
+                <th>COMPANY</th>
+                <th>TITLE</th>
+                <th>ELIGIBILITY</th>
+                <th>ADDRESS</th>
+                <th>EMAIL</th>
+                <th>PHONE NUMBER</th>
+            </thead>
+            {%for job in chennaijob%}
+                <tr>
+                    <td>{{job.date}}</td>
+                    <td>{{job.company}}</td>
+                    <td>{{job.title}}</td>
+                    <td>{{job.eligibilty}}</td>
+                    <td>{{job.address}}</td>
+                    <td>{{job.email}}</td>
+                    <td>{{job.phonenumber}}</td>
+                
+                </tr>
+            {%endfor%}
+        </table>
+        {%else%}
+        <p>Job Records Not Found!!!!</p>
+        {%endif%}
+    </div>
+    </body>
+</html>
