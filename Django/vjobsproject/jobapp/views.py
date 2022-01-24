@@ -1,9 +1,6 @@
 from django.shortcuts import render
-from jobapp.models import Job
-from jobapp.models import HydJobs
-from jobapp.models import BlrJobs
-from jobapp.models import ChennaiJobs
-from jobapp.models import PuneJobs
+from jobapp.models import *
+
 # Create your views here.
 def job_info_view(request):
     jobinfo=Job.objects.all().order_by('date')
