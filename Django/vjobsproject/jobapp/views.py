@@ -3,8 +3,7 @@ from jobapp.models import *
 
 # Create your views here.
 def job_info_view(request):
-    jobinfo=Job.objects.all().order_by('date')
-    return render(request,'jobapp/jobs.html',{'jobinfo':jobinfo})
+    return render(request,'jobapp/jobs.html')
 
 def hyd_info_view(request):
     hydjob=HydJobs.objects.all().order_by('date')
