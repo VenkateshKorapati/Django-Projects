@@ -1,20 +1,37 @@
 body{
-    background: url(https://media.istockphoto.com/photos/professional-cutting-room-for-video-editing-and-video-producing-and-picture-id1310443750?b=1&k=20&m=1310443750&s=170667a&w=0&h=J6MCvoKhWPVjnejnIzLVM341_WJPIB_q27x0Ri2V5Ss=);
+    background: url(https://images.unsplash.com/photo-1565982369439-2072eee9168a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTd8fG1lbW9yaWVzfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60);
     background-repeat: no-repeat;
     background-size: cover;
-    background-position: center;
     backface-visibility: visible;
-}
+    background-position: center;
+}   
 .navbar{
     background: orange;
 }
 .navbar a{
     color: green;
-    font-size: 20px;
+    font-size: 18px;
  
 }
-.container p{
-    font-size: 100px;
-    font-family: fantasy;
-
+div{
+    background: transparent;
+}
+.jumbotron{
+    background: transparent;
+    background: url(https://images.unsplash.com/photo-1572990002424-ae5818eaed74?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8MTZ8Mzc0NTc2NTF8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=60);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    text-align: center;
+    background-attachment: fixed;
+    color: white;
+    font-family: 'Indie Flower', cursive;
+}
+.jumbotron h1{
+    color: #de4c0d;
+    font-weight: 800;
+}
+.navbar-header a{
+    font-size: 30px;
+    
 }
