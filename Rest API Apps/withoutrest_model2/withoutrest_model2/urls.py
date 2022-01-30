@@ -1,4 +1,4 @@
-"""withoutrest_model URL Configuration
+"""withoutrest_model2 URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.0/topics/http/urls/
@@ -14,13 +14,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path,re_path
+from django.urls import path
 from testapp import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    re_path('api/(?P<id>\d+)/', views.EmployeeDetailsCBV.as_view()),
-    path('api/', views.EmployeeCRUDCBV.as_view()),
-    
-
+    path('api/', views.StudentCRUDcbv.as_view()),
 ]
