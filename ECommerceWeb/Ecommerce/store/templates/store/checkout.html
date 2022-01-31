@@ -50,15 +50,17 @@
             <hr>
             <h3>Order Summery </h3>
             <hr> 
+            {% for item in items %}
             <div class='cart-row'>
-                <div style="flex:2"><img class='row-image' src="{%static 'images/fixie2.jpg'%}" alt=""></div>
-                <div style="flex: 1;">product 1</div>
-                <div style="flex: 1;">$120</div>
-                <div style="flex: 1;">x 2</div>
+                <div style="flex:2"><img class='row-image' src="{{item.product.imageURL}}" alt=""></div>
+                <div style="flex: 1;">{{item.product.name}}</div>
+                <div style="flex: 1;">Rs {{item.product.price}}</div>
+                <div style="flex: 1;">x {{item.quantity}}</div>
             </div> 
             <hr> 
-            <h5>Items : 2</h5>    
-            <h5>Total : $240</h5>    
+            {% endfor %}
+            <h5>Items : {{order.get_cart_items}}</h5>    
+            <h5>Total : Rs {{order.get_cart_total|floatformat:2}}</h5>    
         </div>
 
     </div>
