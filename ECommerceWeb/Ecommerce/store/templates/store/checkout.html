@@ -6,40 +6,43 @@
     <div class='row'>
         <div class='col-lg-6'>
             <div class='box-element' id='form-wrapper'>
-                <form id='user-info'>
+            <form id='form'>
+                {% csrf_token %}
+                <div id='user-info'>
                     <div class='form-field'>
-                        <input required class='form-control' type="text" name="name" placeholder="Enter your name" id="">
+                        <input required class='form-control' type="text" name="name" placeholder="Enter your name">
                     </div>
                     <div class='form-field'>
-                        <input required class='form-control' type="email" name="email" placeholder="Email address" id="">
+                        <input required class='form-control' type="email" name="email" placeholder="Email address">
                     </div>
-                </form>
+                </div>
 
-                <form id='shipping-info'>
+                <div id='shipping-info'>
                     <hr>
                     <p>Shipping Information</p>
                     <div class='form-field'>
-                        <input required class='form-control' type="text" name="Address" placeholder="Address" id="">
+                        <input required class='form-control' type="text" name="address" placeholder="Address" id="">
                     </div>
                     <div class='form-field'>
-                        <input required class='form-control' type="text" name="City" placeholder="city" id="">
+                        <input required class='form-control' type="text" name="city" placeholder="City" id="">
                     </div>
                     <div class='form-field'>
-                        <input required class='form-control' type="text" name="state" placeholder="state" id="">
+                        <input required class='form-control' type="text" name="state" placeholder="State" id="">
                     </div>
+                    
                     <div class='form-field'>
-                        <input required class='form-control' type="text" name="Country" placeholder="country" id="">
+                        <input required class='form-control' type="text" name="zipcode" placeholder="Zipcode" id="">
                     </div>
-                    <div class='form-field'>
-                        <input required class='form-control' type="text" name="zipcode" placeholder="zipcode" id="">
-                    </div>
-                </form>
+                </div>
 
                 <input id='form-button' class='btn btn-success btn-block' type="submit" value="continue">
+            </form> 
             </div>
             <br>
+        
                 <div class='box-element hidden' id='payment-info'>
                     <small>Paypal options</small>
+                    <button id='make-payment'>Make Payment</button>
                 </div>
         </div>   
                 
@@ -65,7 +68,91 @@
 
     </div>
          
+<script type="text/javascript">
+    var shipping ='{{order.shipping}}'
+    var total='{{order.get_cart_total|floatformat:2}}'
+
+    if(shipping == 'False'){
+        document.getElementById('shipping-info').innerHTML=''
+    }
+
+    if(user != 'AnonymousUser'){
+        document.getElementById('user-info').innerHTML=''
+    }
+    if (shipping == 'False' && user != 'AnonymousUser'){
+        //Hide entire form if user is logged in and shipping is False
+        document.getElementById('form-wrapper').classList.add('hidden');
+        //show payment if logged in user wants to buy an item that does not require shipping
+        document.getElementById('payment-info').classList.remove('hidden')
+    }
+
+
+    var form=document.getElementById('form')
+    
+    csrf_token = form.getElementsByTagName("input")[0].value
+    console.log('NewToken:', form.getElementsByTagName("input")[0].value)
+
+    form.addEventListener('submit', function(e){
+        e.preventDefault()
+        console.log('Form submitted...')
+        document.getElementById('form-button').classList.add('hidden')
+        document.getElementById('payment-info').classList.remove('hidden')
+    })
+
+    document.getElementById('make-payment').addEventListener('click', function(e) {
+        submitFormData()
+    })
+
+    function submitFormData(){
+        console.log('Payment button clicked..')
+
+        var userFormData={
+            'name':null,
+            'email':null,
+            'total':total,
+        }
+
+        var shippingInfo={
+            'address':null,
+            'city':null,
+            'state':null,
+            'zipcode':null,
+            
+        }
+
+        if(shipping != 'False'){
+            shippingInfo.address = form.address.value
+            shippingInfo.city = form.city.value
+            shippingInfo.state = form.state.value
+            shippingInfo.zipcode = form.zipcode.value
+        }
+            
+
+        if(user == 'AnonymousUser'){
+            userFormData.name = form.name.value
+            userFormData.email = form.email.value
+        }
+
+        
+        var url = '/process_order/'
+        fetch(url,{
+            method: "POST",
+            headers:{
+                'Content-Type' : 'application/json',
+                'X-CSRFToken':csrftoken,
+            },
+            body: JSON.stringify({'form':userFormData,'shipping':shippingInfo})
+        })
+
+        .then((response) => response.json())
+        .then((data) => {
+            console.log('Success:',data);
+            alert('Transaction Completed');
+            window.location.href = "{% url 'store' %}"
+        })
+    }
        
+</script>    
        
 {% endblock content %}        
         
