@@ -54,6 +54,7 @@ def updateItem(request):
         orderItem.quantity = (orderItem.quantity-1)
 
     orderItem.save()
+    
     if orderItem.quantity <=0:
         orderItem.delete()
 

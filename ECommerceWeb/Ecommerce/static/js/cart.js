@@ -33,18 +33,19 @@ function addCookieItem(productId, action){
         }
     }  
     console.log('Cart:',cart)
-    document.cookie = 'cart=' + JSON.stringify(cart) + ";domain=;path=/" 
+    document.cookie = 'cart=' + JSON.stringify(cart) + ";domain=;path=/"
+    location.reload()
 }
 
-function updateUserOrder(productId,action){
+function updateUserOrder(productId, action){
     console.log('User is Authenticated, sending data..')
     var url = '/update_item/'
 
     fetch(url,{
         method:'POST',
         headers:{
-            'Content-Type':'apllication/json',
-            'X-CSRFToken':csrftoken
+            'Content-Type':'application/json',
+            'X-CSRFToken':csrftoken,
         },
         body:JSON.stringify({'productId':productId,'action':action})
     })
