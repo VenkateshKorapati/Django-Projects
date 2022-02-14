@@ -1,10 +1,13 @@
 import json
 from django.http import JsonResponse
 from django.shortcuts import render
-from numpy import product
 from .models import *
 import datetime
 from .utils import cookieCart , cartData, guestOrder
+from django.views import generic
+from django.contrib.auth.forms import UserCreationForm
+from django.urls import reverse_lazy
+from django.contrib.auth import authenticate,login
 
 def store(request):
     data = cartData(request)
@@ -13,6 +16,21 @@ def store(request):
     products=Product.objects.all()
     context= {'products': products, 'cartItems':cartItems}    
     return render(request, 'store/store.html', context)
+
+class  SignUp(generic.CreateView):
+    form_class = UserCreationForm
+    success_url = reverse_lazy('store')
+    template_name = 'registration/signup.html'
+
+    def form_valid(self, form):
+        view=super(SignUp,self).form_valid(form)
+        username, password = form.cleaned_data.get('username'), form.cleaned_data.get('password1')        
+        customer = self.user.customer
+        user = authenticate(username=username,password=password)
+        login(self.request,user,customer)
+        return view
+
+
 
 
 def cart(request):
