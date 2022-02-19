@@ -8,6 +8,8 @@ from .models import Vidzs,Video
 from .forms import VideoForm,SearchForm
 from django.http import Http404, JsonResponse
 from django.forms.utils import ErrorList
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 import urllib
 import requests
 
@@ -16,14 +18,18 @@ YOUTUBE_API_KEY = 'AIzaSyBuM7q9U1f-O6t4Gyg4zsxstDiEHRxbWYQ'
 
 # Create your views here.
 def home(request):
-    context = {}
+    recent_vidzs = Vidzs.objects.all().order_by('-id')[:3]
+    popular_vidzs = [Vidzs.objects.get(pk=1),Vidzs.objects.get(pk=2),Vidzs.objects.get(pk=3)] 
+    context = {'recent_vidzs':recent_vidzs,'popular_vidzs':popular_vidzs}
     return render(request,'vidz/home.html',context)
 
+@login_required
 def dashboard(request):
-    context = {}
+    vidzs = Vidzs.objects.filter(user=request.user)
+    context = {"vidzs":vidzs}
     return render(request,'vidz/dashboard.html',context)
 
-
+@login_required
 def add_video(request, pk):
     form = VideoForm()
     search_form = SearchForm()
@@ -58,7 +64,7 @@ def add_video(request, pk):
     return render(request, 'vidz/add_video.html',context)
 
             
-
+@login_required
 def video_search(request):
     search_form = SearchForm(request.GET)
     if search_form.is_valid():
@@ -67,15 +73,21 @@ def video_search(request):
         return JsonResponse(response.json())
     return JsonResponse({'error':'Not able to validate form'})
 
-class DeleteVideo(generic.DeleteView):
+class DeleteVideo(LoginRequiredMixin,generic.DeleteView):
     model = Video
     template_name = 'vidz/delete_video.html'
     success_url = reverse_lazy('dashboard')
 
+    def get_object(self):
+        video = super(DeleteVideo,self).get_object()
+        if not video.vidzs.user == self.request.user:
+            raise Http404 
+        return video
+
     
 class  SignUp(generic.CreateView):
     form_class = UserCreationForm
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('dashboard')
     template_name = 'registration/signup.html'
 
     def form_valid(self, form):
@@ -85,7 +97,7 @@ class  SignUp(generic.CreateView):
         login(self.request,user)
         return view
 
-class CreateVidz(generic.CreateView):
+class CreateVidz(LoginRequiredMixin,generic.CreateView):
     model = Vidzs
     fields = ['title']
     template_name = 'vidz/create_vidz.html' 
@@ -94,19 +106,31 @@ class CreateVidz(generic.CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         super(CreateVidz,self).form_valid(form)
-        return redirect('home')
+        return redirect('dashboard')
 
 class DetailVidz(generic.DetailView):
     model = Vidzs
     template_name = 'vidz/detail_vidz.html'
 
-class UpdateVidz(generic.UpdateView):
+class UpdateVidz(LoginRequiredMixin,generic.UpdateView):
     model = Vidzs
     template_name = 'vidz/update_vidz.html'
     fields = ['title']
     success_url = reverse_lazy('dashboard')
+
+    def get_object(self):
+        vidzs = super(UpdateVidz,self).get_object()
+        if not vidzs.user == self.request.user:
+            raise Http404 
+        return vidzs
     
-class DeleteVidz(generic.DeleteView):
+class DeleteVidz(LoginRequiredMixin,generic.DeleteView):
     model = Vidzs
     template_name = 'vidz/delete_vidz.html'
     success_url = reverse_lazy('dashboard')
+
+    def get_object(self):
+        vidzs = super(DeleteVidz,self).get_object()
+        if not vidzs.user == self.request.user:
+            raise Http404 
+        return vidzs

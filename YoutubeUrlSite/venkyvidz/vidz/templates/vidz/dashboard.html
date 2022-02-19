@@ -2,6 +2,28 @@
 
 {% block content %}
 <div class="container">
-   Dashboard
+   <div class="text-center">
+   <h2>{{ user.username }}'s Vidz of Fame</h2>
+   <a href="{% url 'create_vidz' %}" class="btn btn-primary">Create Vidz oF Fame</a>
+ </div>    
+
+      {% for vidzs in vidzs %}
+         <h2><a href="{% url 'detail_vidz' vidzs.id %}">{{vidzs.title}}</a></h2>
+         <a href="{% url 'delete_vidz' vidzs.id %}" class="btn btn-danger">Delete</a>
+         <a href="{% url 'update_vidz' vidzs.id %}" class="btn btn-primary">Edit</a>
+         <a href="{% url 'add_video' vidzs.id %}" class="btn btn-primary">Add video</a>
+
+      <div class="row">
+         {% for video in vidzs.video_set.all %}
+         <div class="col-md-4 mt-3"><div class="card mb-4 shadow-sm">
+            <iframe width="100%" height="225" src="https://www.youtube.com/embed/{{ video.youtube_id }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <div class="card-body"><p class= "card-text">{{ video.title }}</p></div>
+            </div>
+         </div>
+         {% endfor %}
+      </div>
+
+      {% endfor %}
+
 </div>
 {% endblock %}
