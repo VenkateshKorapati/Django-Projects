@@ -1,0 +1,6 @@
+get {{ hostname }}
+
+###
+
+post {{ hostname }}
+Content-Type :application/json

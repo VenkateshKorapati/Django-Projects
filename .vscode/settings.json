@@ -1,3 +1,11 @@
 {
-    "python.pythonPath": "C:\\Users\\venka\\AppData\\Local\\Programs\\Python\\Python310\\Lib\\venv\\scripts"
+    "python.pythonPath": "C:\\Users\\venka\\AppData\\Local\\Programs\\Python\\Python310\\Lib\\venv\\scripts",
+    "rest-client.environmentVariables": {
+        "$shared":{
+            "apiKey":"my-api-key-123"
+        },
+        "Local Env" :{
+            "hostname":"http://locahost:8000/"
+        }
+    }
 }
